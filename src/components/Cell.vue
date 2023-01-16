@@ -1,5 +1,4 @@
 <script setup>
-import { reactive } from 'vue';
 const props = defineProps({
   col: Number,
   content: {
@@ -11,12 +10,12 @@ const props = defineProps({
   selected: {
     type: Boolean,
     required: true,
-  }
+  },
 });
 const emit = defineEmits(["select"]);
 
-function click(event) {
-    emit("select", { row: props.row, col: props.col });
+function click() {
+  emit("select", { row: props.row, col: props.col });
 }
 </script>
 
@@ -30,9 +29,9 @@ function click(event) {
 
 <style scoped>
 div {
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
 }
 h3 {
   font-size: 1.2rem;
@@ -44,7 +43,7 @@ h3 {
 }
 
 div.selected {
-    background-color: red;
+  background-color: red;
 }
 
 @media (min-width: 1024px) {
