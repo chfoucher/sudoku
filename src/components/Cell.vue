@@ -35,6 +35,7 @@ div {
 }
 h3 {
   font-size: 1.2rem;
+  text-align: center;
 }
 
 .cell h3 {
@@ -44,11 +45,5 @@ h3 {
 
 div.selected {
   background-color: red;
-}
-
-@media (min-width: 1024px) {
-  .cell h3 {
-    text-align: left;
-  }
 }
 </style>
