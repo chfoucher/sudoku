@@ -20,7 +20,7 @@ function click() {
 </script>
 
 <template>
-  <div class="cell" @click="click" :class="{ selected: selected }">
+  <div class="cell" @click="click" :class="{ selected }">
     <h3>
       {{ content }}
     </h3>
@@ -32,7 +32,13 @@ div {
   width: 30px;
   height: 30px;
   cursor: pointer;
+  background-color: white;
 }
+
+div.selected {
+  background-color: red;
+}
+
 h3 {
   font-size: 1.2rem;
   text-align: center;
@@ -41,9 +47,5 @@ h3 {
 .cell h3 {
   text-align: center;
   width: 30px;
-}
-
-div.selected {
-  background-color: red;
 }
 </style>

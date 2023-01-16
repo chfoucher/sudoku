@@ -70,9 +70,10 @@ h3 {
   font-size: 1.2rem;
 }
 
-td {
-  border: 1px solid black;
+table {
+  background-color: darkgray;
 }
+
 .greetings h1,
 .greetings h3 {
   text-align: center;
