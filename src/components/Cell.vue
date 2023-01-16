@@ -1,14 +1,13 @@
 <script setup>
 import { reactive } from 'vue';
 const props = defineProps({
+  col: Number,
   content: {
     type: String,
     required: true,
   },
-  id: {
-    type: Number,
-    required: false,
-  },
+  id: Number,
+  row: Number,
   selected: {
     type: Boolean,
     required: true,
@@ -17,7 +16,7 @@ const props = defineProps({
 const emit = defineEmits(["select"]);
 
 function click(event) {
-    emit("select", props.id);
+    emit("select", { row: props.row, col: props.col });
 }
 </script>
 
@@ -33,6 +32,7 @@ function click(event) {
 div {
     width: 30px;
     height: 30px;
+    cursor: pointer;
 }
 h3 {
   font-size: 1.2rem;

@@ -2,7 +2,7 @@
 import { reactive } from 'vue'
 import Cell from "./Cell.vue";
 
-const boarSize = 9;
+const boardSize = 9;
 defineProps({
   msg: {
     type: String,
@@ -16,17 +16,15 @@ const state = reactive({
   board: [],
 });
 let i = 0;
-for (let row = 0; row < boarSize; row++) {
+for (let row = 0; row < boardSize; row++) {
   const boardRow = [];
-  for (let col = 0; col < boarSize; col ++) {
-    boardRow.push({ id: i++, content: "", selected: false });
+  for (let col = 0; col < boardSize; col ++) {
+    boardRow.push({ id: i++, row, col, content: "", selected: false });
   }
   state.board.push(boardRow);
 }
 
-function select(id) {
-  const row = Math.floor(id / boarSize);
-  const col = id - boarSize * row;
+function select({ row, col }) {
   state.board[row][col].selected = true;
   if (state.selectedRow != -1) {
     state.board[state.selectedRow][state.selectedCol].selected = false;
@@ -51,7 +49,7 @@ function enter(n) {
     </h3>
     <table>
       <tr v-for="row in state.board">
-        <td v-for="cell in row"><Cell :id="cell.id" :content="cell.content" :selected="cell.selected" @select="select"/></td>
+        <td v-for="cell in row"><Cell :id="cell.id" :row="cell.row" :col="cell.col" :content="cell.content" :selected="cell.selected" @select="select"/></td>
       </tr>
     </table>
     <p><button v-for="i in [1, 2, 3, 4, 5, 6, 7, 8, 9]" @click="enter(i)">{{ i }}</button></p>
