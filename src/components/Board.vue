@@ -29,6 +29,7 @@ function select({ row, col }) {
 function enter(n) {
   if (state.selectedRow != -1 && state.board[state.selectedRow][state.selectedCol].options[n - 1]) {
     state.board[state.selectedRow][state.selectedCol].content = `${n}`;
+    state.board[state.selectedRow][state.selectedCol].safe = false;
     updateOptions(state.selectedRow, state.selectedCol, n);
     detectSafeOption();
   }
@@ -44,7 +45,7 @@ function initBoard() {
   for (let row = 0; row < boardSize; row++) {
     const boardRow = [];
     for (let col = 0; col < boardSize; col++) {
-      boardRow.push({ id: i++, row, col, content: "", selected: false, options: [...fullOptions] });
+      boardRow.push({ id: i++, row, col, content: "", selected: false, safe: false, options: [...fullOptions] });
     }
     board.push(boardRow);
   }
@@ -83,8 +84,7 @@ function detectSafeOption() {
     for (let c = 0; c < boardSize; c++) {
       const nbOfOptions = state.board[r][c].options.filter(i => i).length;
       if ((nbOfOptions === 1) && state.board[r][c].content === "") {
-        console.log(`Safe option at row ${r}, col ${c}`);
-        console.log(state.board[r][c].options.filter(i => i));
+        state.board[r][c].safe = true;
       }
     }
   }
