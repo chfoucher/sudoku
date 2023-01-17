@@ -15,14 +15,7 @@ const state = reactive({
   selectedCol: -1,
   board: [],
 });
-let i = 0;
-for (let row = 0; row < boardSize; row++) {
-  const boardRow = [];
-  for (let col = 0; col < boardSize; col++) {
-    boardRow.push({ id: i++, row, col, content: "", selected: false });
-  }
-  state.board.push(boardRow);
-}
+state.board = initBoard();
 
 function select({ row, col }) {
   state.board[row][col].selected = true;
@@ -36,6 +29,64 @@ function select({ row, col }) {
 function enter(n) {
   if (state.selectedRow != -1) {
     state.board[state.selectedRow][state.selectedCol].content = `${n}`;
+    updateOptions(state.selectedRow, state.selectedCol, n);
+    detectSafeOption();
+  }
+}
+
+function initBoard() {
+  const board = [];
+  let i = 0;
+  const fullOptions = [];
+  for (let j = 0; j < 9; j++) {
+    fullOptions.push(true);
+  }
+  for (let row = 0; row < boardSize; row++) {
+    const boardRow = [];
+    for (let col = 0; col < boardSize; col++) {
+      boardRow.push({ id: i++, row, col, content: "", selected: false, options: [...fullOptions] });
+    }
+    board.push(boardRow);
+  }
+  return board;
+}
+
+function updateOptions(row, col, value) {
+  // Column
+  for (let i = 0; i < boardSize; i++) {
+    if (i != row) {
+      state.board[i][col].options[value - 1] = false;
+    }
+  }
+  // Row
+  for (let i = 0; i < boardSize; i++) {
+    if (i != col) {
+      state.board[row][i].options[value - 1] = false;
+    }
+  }
+  // Block
+  const rowBlock = Math.floor(row / 3);
+  const colBlock = Math.floor(col / 3);
+  for (let r = 0; r < 3; r++) {
+    const rowCell = rowBlock * 3 + r;
+    for (let c = 0; c < 3; c++) {
+      const colCell = colBlock * 3 + c;
+      if ((rowCell != row) || (colCell != col)) {
+        state.board[rowCell][colCell].options[value - 1] = false;
+      }
+    }
+  }
+}
+
+function detectSafeOption() {
+  for (let r = 0; r < boardSize; r++) {
+    for (let c = 0; c < boardSize; c++) {
+      const nbOfOptions = state.board[r][c].options.filter(i => i).length;
+      if ((nbOfOptions === 1) && state.board[r][c].content === "") {
+        console.log(`Safe option at row ${r}, col ${c}`);
+        console.log(state.board[r][c]);
+      }
+    }
   }
 }
 </script>
